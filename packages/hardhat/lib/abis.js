@@ -70,7 +70,7 @@ async function saveAbis(contracts) {
   });
 
   const ipfsHashes = [];
-  const txHashes = []
+  const txHashes = [];
 
   await Promise.all(
     Object.keys(abis).map(async (abiId) => {

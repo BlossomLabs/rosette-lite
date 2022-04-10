@@ -1,4 +1,5 @@
 .App {
-  text-align: center;
-  padding-left: calc(100vw - 100%);
+  max-width: 1200px;
+  word-wrap: break-word;
+  margin: auto;
 }
