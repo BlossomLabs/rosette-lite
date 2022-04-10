@@ -64,6 +64,11 @@ module.exports = {
   // Follow the directions, and uncomment the network you wish to deploy to.
 
   networks: {
+    hardhat: {
+      forking: {
+        url: "https://eth-mainnet.alchemyapi.io/v2/hyh5RT7V_1bCTB4rsMPluVeS5oR71oua",
+      },
+    },
     localhost: {
       url: "http://localhost:8545",
       /*      
