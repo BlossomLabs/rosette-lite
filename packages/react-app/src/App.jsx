@@ -1,4 +1,4 @@
-import { Button, Col, Menu, Row } from "antd";
+import { Button, Col, Menu, Row, PageHeader } from "antd";
 import "antd/dist/antd.css";
 import {
   useBalance,
@@ -17,7 +17,6 @@ import {
   Contract,
   Faucet,
   GasGauge,
-  Header,
   Ramp,
   ThemeSwitch,
   NetworkDisplay,
@@ -65,9 +64,9 @@ const web3Modal = Web3ModalSetup();
 
 // 🛰 providers
 const providers = [
-  "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
+  // "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
   `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`,
-  "https://rpc.scaffoldeth.io:48544",
+  // "https://rpc.scaffoldeth.io:48544",
 ];
 
 function App(props) {
@@ -247,40 +246,28 @@ function App(props) {
   return (
     <div className="App">
       {/* ✏️ Edit the header and change the title to your project name */}
-      <Header />
-      <NetworkDisplay
-        NETWORKCHECK={NETWORKCHECK}
-        localChainId={localChainId}
-        selectedChainId={selectedChainId}
-        targetNetwork={targetNetwork}
-        logoutOfWeb3Modal={logoutOfWeb3Modal}
-        USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
+      <PageHeader
+        title={"🤓 Transaction Decoder"}
+        subTitle={
+          <Menu selectedKeys={[location.pathname]} mode="horizontal">
+            <Menu.Item key="/">
+              <Link to="/">App Home</Link>
+            </Menu.Item>
+            <Menu.Item key="/debug">
+              <Link to="/debug">Debug Contracts</Link>
+            </Menu.Item>
+            <Menu.Item key="/subgraph">
+              <Link to="/subgraph">Subgraph</Link>
+            </Menu.Item>
+          </Menu>
+        }
+        style={{ cursor: "pointer" }}
       />
-      <Menu style={{ textAlign: "center", marginTop: 40 }} selectedKeys={[location.pathname]} mode="horizontal">
-        <Menu.Item key="/">
-          <Link to="/">App Home</Link>
-        </Menu.Item>
-        <Menu.Item key="/debug">
-          <Link to="/debug">Debug Contracts</Link>
-        </Menu.Item>
-        <Menu.Item key="/hints">
-          <Link to="/hints">Hints</Link>
-        </Menu.Item>
-        <Menu.Item key="/exampleui">
-          <Link to="/exampleui">ExampleUI</Link>
-        </Menu.Item>
-        <Menu.Item key="/mainnetdai">
-          <Link to="/mainnetdai">Mainnet DAI</Link>
-        </Menu.Item>
-        <Menu.Item key="/subgraph">
-          <Link to="/subgraph">Subgraph</Link>
-        </Menu.Item>
-      </Menu>
 
       <Switch>
         <Route exact path="/">
           {/* pass in any web3 props to this Home component. For example, yourLocalBalance */}
-          <Home yourLocalBalance={yourLocalBalance} readContracts={readContracts} />
+          <Home mainnetProvider={mainnetProvider} />
         </Route>
         <Route exact path="/debug">
           {/*
