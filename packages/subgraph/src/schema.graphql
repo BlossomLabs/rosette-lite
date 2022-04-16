@@ -1,15 +1,13 @@
-type Purpose @entity {
+type ABI @entity {
   id: ID!
-  sender: Sender!
-  purpose: String!
+  content: String!
   createdAt: BigInt!
   transactionHash: String!
 }
 
-type Sender @entity {
+type Bytecode @entity {
   id: ID!
-  address: Bytes!
-  purposes: [Purpose!] @derivedFrom(field: "sender")
+  abi: [ABI!]
   createdAt: BigInt!
-  purposeCount: BigInt!
+  count: BigInt!
 }

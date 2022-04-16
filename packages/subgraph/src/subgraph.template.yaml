@@ -14,12 +14,12 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - Purpose
-        - Sender
+        - ABI
+        - Bytecode
       abis:
         - name: AbiStore
           file: ./abis/localhost_AbiStore.json
       eventHandlers:
-        - event: SetPurpose(address,string)
-          handler: handleSetPurpose
+        - event: SetABI(bytes32,string)
+          handler: handleSetABI
       file: ./src/mapping.ts

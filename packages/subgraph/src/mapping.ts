@@ -1,33 +1,29 @@
 import { BigInt, Address } from "@graphprotocol/graph-ts";
 import {
   AbiStore,
-  SetPurpose,
+  SetABI,
 } from "../generated/AbiStore/AbiStore";
-import { Purpose, Sender } from "../generated/schema";
+import { ABI, Bytecode } from "../generated/schema";
 
-export function handleSetPurpose(event: SetPurpose): void {
-  let senderString = event.params.sender.toHexString();
+export function handleSetABI(event: SetABI): void {
+  let bytecodeId = event.params.bytecodeId.toHexString();
 
-  let sender = Sender.load(senderString);
+  let bytecode = Bytecode.load(bytecodeId);
 
-  if (sender === null) {
-    sender = new Sender(senderString);
-    sender.address = event.params.sender;
-    sender.createdAt = event.block.timestamp;
-    sender.purposeCount = BigInt.fromI32(1);
+  if (bytecode === null) {
+    bytecode = new Bytecode(bytecodeId);
+    bytecode.createdAt = event.block.timestamp;
+    bytecode.count = BigInt.fromI32(1);
   } else {
-    sender.purposeCount = sender.purposeCount.plus(BigInt.fromI32(1));
+    bytecode.count = bytecode.count.plus(BigInt.fromI32(1));
   }
 
-  let purpose = new Purpose(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-  );
+  let abi = new ABI(event.params.abiIpfs);
 
-  purpose.purpose = event.params.purpose;
-  purpose.sender = senderString;
-  purpose.createdAt = event.block.timestamp;
-  purpose.transactionHash = event.transaction.hash.toHex();
+  abi.content = event.params.abiIpfs;
+  abi.createdAt = event.block.timestamp;
+  abi.transactionHash = event.transaction.hash.toHex();
 
-  purpose.save();
-  sender.save();
+  abi.save();
+  bytecode.save();
 }
